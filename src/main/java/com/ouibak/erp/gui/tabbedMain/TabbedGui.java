@@ -1,17 +1,15 @@
-package miniprojectGUI.maintab;
+package main.java.com.ouibak.erp.gui.tabbedMain;
 
-import miniprojectGUI.pannel.login.CreateLoginPannel;
-import miniprojectGUI.pannel.order.OrderTab;
-
+import main.java.com.ouibak.erp.gui.tabpannel.order.OrderTab;
 import javax.swing.*;
 import java.awt.*;
 
-public class TabbedPannel extends JFrame {
+public class TabbedGui extends JFrame {
     private JTabbedPane tabbedPane;
     private JPanel paymentPanel, invenPanel, orderPanel, wareHousingPanel,
             disposePanel, salesPanel, statisticsPanel;
 
-    public TabbedPannel() {
+    public TabbedGui() {
         setTitle("XXXX ERP 프로그램");
         setSize(1115, 672);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,7 +28,7 @@ public class TabbedPannel extends JFrame {
         tabbedPane = new JTabbedPane();
 
         //create panels for each tab
-        paymentPanel = new CreateLoginPannel().createLoginPannel();
+        paymentPanel = new JPanel();
         invenPanel = new JPanel();
         orderPanel = new OrderTab().createOrderManagementPanel();
         wareHousingPanel = new JPanel();
@@ -50,8 +48,6 @@ public class TabbedPannel extends JFrame {
         //Add tabbed pane to the frame
         add(tabbedPane, BorderLayout.CENTER);
 
-//        JLabel storeLabel = new JLabel("xxxx 가맹점");
-//        storeLabel.setFont(new Font("맑은 고딕", 0, 18));
-//        add(storeLabel, BorderLayout.NORTH);
     }
 }
+

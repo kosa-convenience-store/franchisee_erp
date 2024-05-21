@@ -1,4 +1,5 @@
-package miniprojectGUI.pannel.order;
+package main.java.com.ouibak.erp.gui.tabpannel.order;
+import main.java.com.ouibak.erp.gui.util.ButtonUtil.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -96,9 +97,9 @@ public class OrderPannel extends JFrame {
         });
 
         table.getColumn("수정").setCellRenderer(new ButtonRenderer());
-        table.getColumn("수정").setCellEditor(new ButtonEditor3(new JCheckBox(), tableModel, table, "수정"));
+        table.getColumn("수정").setCellEditor(new ButtonEditor(new JCheckBox(), tableModel, table, "수정"));
         table.getColumn("삭제").setCellRenderer(new ButtonRenderer());
-        table.getColumn("삭제").setCellEditor(new ButtonEditor3(new JCheckBox(), tableModel, table, "삭제"));
+        table.getColumn("삭제").setCellEditor(new ButtonEditor(new JCheckBox(), tableModel, table, "삭제"));
 
         return orderRegistrationPanel;
     }
@@ -118,19 +119,3 @@ public class OrderPannel extends JFrame {
         totalAmountField.setText(String.valueOf(totalAmount));
     }
 }
-
-class ButtonEditor3 extends DefaultCellEditor {
-    private String label;
-    private boolean isPushed;
-    private JTable table;
-    private DefaultTableModel tableModel;
-    private String actionType;
-
-    public ButtonEditor3(JCheckBox checkBox, DefaultTableModel tableModel, JTable table, String actionType) {
-        super(checkBox);
-        this.tableModel = tableModel;
-        this.table = table;
-        this.actionType = actionType;
-    }
-}
-

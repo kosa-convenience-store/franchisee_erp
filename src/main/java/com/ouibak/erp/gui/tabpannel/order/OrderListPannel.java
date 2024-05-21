@@ -1,4 +1,4 @@
-package miniprojectGUI.pannel.order;
+package main.java.com.ouibak.erp.gui.tabpannel.order;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
