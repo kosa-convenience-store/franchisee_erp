@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import main.java.com.ouibak.erp.dao.DBConnection;
 import oracle.jdbc.OracleTypes;
 
 public class OrderDao {
@@ -17,6 +19,7 @@ public class OrderDao {
 
 
 
+    // 발주 조회
     public List<Order> getRecentOrdersPaging(int pageNumber, int pageSize) {
         List<Order> orders = new ArrayList<>();
         String query = "{CALL get_recent_orders_paging(?, ?, ?)}";
@@ -46,4 +49,36 @@ public class OrderDao {
         }
         return orders;
     }
+
+    // 발주 상세 조회
+    public List<OrderDetail> getOrderDetails(int orderIdx) {
+        List<OrderDetail> orderDetails = new ArrayList<>();
+        String query = "{CALL get_order_details(?, ?)}";
+
+        try (Connection connection = DBConnection.getConnection();
+             //
+             CallableStatement callableStatement = connection.prepareCall(query)) {
+
+            callableStatement.setInt(1, orderIdx);
+            callableStatement.registerOutParameter(2, OracleTypes.CURSOR);
+
+            callableStatement.execute(); // 프로시저 실행
+
+            try (ResultSet resultSet = (ResultSet) callableStatement.getObject(2)) {
+                while (resultSet.next()) {
+                    OrderDetail detail = new OrderDetail();
+                    detail.setOrderIdx(resultSet.getInt("order_idx"));
+                    detail.setProductIdx(resultSet.getInt("product_idx"));
+                    detail.setCount(resultSet.getInt("count"));
+                    orderDetails.add(detail);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orderDetails;
+    }
+
 }
+
+
