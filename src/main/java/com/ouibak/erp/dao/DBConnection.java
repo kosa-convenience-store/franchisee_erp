@@ -47,7 +47,7 @@ public class DBConnection {
         }
     }
 
-    static Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         if (conn == null) {
             conn = DBConnection.getConnection();
             conn.setAutoCommit(false);

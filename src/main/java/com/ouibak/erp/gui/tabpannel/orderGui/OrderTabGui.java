@@ -1,4 +1,4 @@
-package main.java.com.ouibak.erp.gui.tabpannel.order;
+package main.java.com.ouibak.erp.gui.tabpannel.orderGui;
 
 import javax.swing.*;
 import java.awt.*;

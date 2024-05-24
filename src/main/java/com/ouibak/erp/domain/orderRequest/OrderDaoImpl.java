@@ -1,4 +1,4 @@
-package main.java.com.ouibak.erp.domain.order;
+package main.java.com.ouibak.erp.domain.orderRequest;
 
 import main.java.com.ouibak.erp.dao.DBDaoImpl;
 
