@@ -3,7 +3,7 @@ package main.java.com.ouibak.erp.gui.tabpannel.order;
 import javax.swing.*;
 import java.awt.*;
 
-public class OrderTab extends JFrame {
+public class OrderTabGui extends JFrame {
     private JPanel cardPanel;
     private CardLayout cardLayout;
 
@@ -18,8 +18,8 @@ public class OrderTab extends JFrame {
 
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
-        cardPanel.add(new OrderPannel().createOrderRegistrationPanel(), "발주 등록");
-        cardPanel.add(new OrderListPannel().createOrderHistoryPanel(), "발주 내역");
+        cardPanel.add(new OrderGui().createOrderRegistrationPanel(), "발주 등록");
+        cardPanel.add(new OrderListGui().createOrderHistoryPanel(), "발주 내역");
 
         panel.add(sidePanel, BorderLayout.WEST);
         panel.add(cardPanel, BorderLayout.CENTER);
