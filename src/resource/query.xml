@@ -9,4 +9,26 @@
         {call insert_order_proc(?, ?)}
     </entry>
 
+
+
+    <entry key="getProductList">
+        SELECT PRODUCT_NAME, PRODUCT_PRICE FROM TBL_PRODUCT
+    </entry>
+
+    <entry key="insertOrderList">
+        DECLARE
+        v_order_idx NUMBER := ?;
+        v_product_name VARCHAR2(50) := ?;
+        v_count NUMBER := ?;
+        BEGIN
+        IN_ORDERLIST_PROC(
+        p_order_idx => v_order_idx,
+        p_product_name => v_product_name,
+        p_count => v_count
+        );
+        END;
+    </entry>
+
+
+
 </properties>

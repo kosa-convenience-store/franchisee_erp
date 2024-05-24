@@ -1,6 +1,6 @@
-package main.java.com.ouibak.erp.gui.tabpannel.order;
+package main.java.com.ouibak.erp.gui.tabpannel.orderGui;
 
-import main.java.com.ouibak.erp.domain.order.OrderServiceImpl;
+import main.java.com.ouibak.erp.domain.orderRequest.OrderServiceImpl;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

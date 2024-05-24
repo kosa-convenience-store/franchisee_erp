@@ -1,4 +1,4 @@
-package main.java.com.ouibak.erp.gui.tabpannel.order;
+package main.java.com.ouibak.erp.gui.tabpannel.orderGui;
 
 import main.java.com.ouibak.erp.domain.orderList.orderList.Order;
 import main.java.com.ouibak.erp.domain.orderList.orderList.OrderDao;
@@ -10,14 +10,14 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
-public class OrderListPannel {
+public class OrderListGui {
     private DefaultTableModel orderTableModel;
     private OrderDao orderDao;
     private int currentPage = 1;
     private int pageSize = 10;
     private boolean isLoading = false;
 
-    public OrderListPannel() {
+    public OrderListGui() {
         orderDao = new OrderDao();
     }
 
