@@ -12,7 +12,7 @@ import java.util.Properties;
 public class DBConnection {
     private static Connection conn;
 
-    private DBConnection() {
+    public DBConnection() {
     }
 
     static {
