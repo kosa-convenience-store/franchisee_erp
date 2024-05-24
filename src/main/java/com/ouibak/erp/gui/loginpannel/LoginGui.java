@@ -1,8 +1,10 @@
 package main.java.com.ouibak.erp.gui.loginpannel;
 
+import main.java.com.ouibak.erp.domain.franchisee.FranchiseeDao;
 import main.java.com.ouibak.erp.gui.tabbedMain.TabbedGui;
 
 import javax.swing.*;
+import java.sql.SQLException;
 
 public class LoginGui extends javax.swing.JFrame {
     private javax.swing.JTextField inputIdTextField;
@@ -10,12 +12,10 @@ public class LoginGui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton loginButton;
 
-    //
     public LoginGui() {
         initComponents();
     }
 
-    //
     @SuppressWarnings("unchecked")
     private void initComponents() {
         setTitle("XXXX ERP 프로그램");
@@ -27,12 +27,10 @@ public class LoginGui extends javax.swing.JFrame {
         inputPasswordField = new javax.swing.JPasswordField();
         loginButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setFont(new java.awt.Font("휴먼엑스포", 1, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("휴먼엑스포", 1, 48));
         jLabel1.setText("XXXX ERP PROGRAM");
 
-        inputIdTextField.setFont(new java.awt.Font("맑은 고딕", 0, 14)); // NOI18N
+        inputIdTextField.setFont(new java.awt.Font("맑은 고딕", 0, 14));
         inputIdTextField.setText("ID");
 
         inputPasswordField.setText("Password");
@@ -44,10 +42,9 @@ public class LoginGui extends javax.swing.JFrame {
             }
         });
 
-        //layout
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-        //
+
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
@@ -64,7 +61,7 @@ public class LoginGui extends javax.swing.JFrame {
                                                 .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(365, 365, 365))))
         );
-        //
+
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
@@ -83,28 +80,36 @@ public class LoginGui extends javax.swing.JFrame {
         pack();
     }
 
-//    private void inputIdTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputIdTextFieldActionPerformed
-//        // TODO add your handling code here:
-//    }
-
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // Get the text from the input fields
         String userId = inputIdTextField.getText();
         String password = new String(inputPasswordField.getPassword());
 
-        // For demonstration purposes, print out the values
-        System.out.println("User ID: " + userId);
-        System.out.println("Password: " + password);
+        FranchiseeDao dao = new FranchiseeDao();
+        try {
+            int result = dao.validateLogin(userId, password);
 
-        // Perform login logic here (e.g., authenticate the user)
-
-        // If login is successful, show the TabbedGui
-        if (userId.equals("system") && password.equals("0000")) {
-            new TabbedGui().setVisible(true);
-            setVisible(false);
+            // 로그인 검증 프로시저 결과 출력
+            if (result == -1) {
+                JOptionPane.showMessageDialog(this, "아이디가 틀렸습니다. 다시 시도하세요.");
+            } else if (result == -2) {
+                JOptionPane.showMessageDialog(this, "비밀번호가 틀렸습니다. 다시 시도하세요.");
+            } else {
+                JOptionPane.showMessageDialog(this, "로그인 성공");
+                new TabbedGui().setVisible(true);
+                setVisible(false);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "데이터베이스 오류가 발생했습니다.");
         }
     }
 
-
+    public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new LoginGui().setVisible(true);
+            }
+        });
+    }
 }
-
