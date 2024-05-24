@@ -12,7 +12,7 @@ import java.util.Properties;
 public class DBConnection {
     private static Connection conn;
 
-    private DBConnection() {
+    public DBConnection() {
     }
 
     static {
@@ -47,7 +47,7 @@ public class DBConnection {
         }
     }
 
-    public static Connection getConnection() throws SQLException {
+    static Connection getConnection() throws SQLException {
         if (conn == null) {
             conn = DBConnection.getConnection();
             conn.setAutoCommit(false);
