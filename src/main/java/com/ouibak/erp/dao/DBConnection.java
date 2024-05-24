@@ -20,6 +20,7 @@ public class DBConnection {
         Reader reader;
         try {
             reader = new FileReader("src/resource/db.properties");
+
             properties.load(reader);
         } catch (FileNotFoundException e1) {
             System.out.println("예외: 지정한 파일을 찾을수없습니다 :" + e1.getMessage());
