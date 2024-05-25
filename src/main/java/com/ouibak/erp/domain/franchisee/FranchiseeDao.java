@@ -6,7 +6,7 @@ import java.sql.*;
 
 public class FranchiseeDao {
 
-    public int validateLogin(String userId, String password) throws SQLException {
+    public int validateLogin(String userId, String password) {
         Connection conn = null;
         CallableStatement cstm = null;
         try {
@@ -26,10 +26,9 @@ public class FranchiseeDao {
 
             // 함수의 반환 값을 가져옴
             return cstm.getInt(1);
-        } finally {
-            // 자원 해제
-            if (cstm != null) cstm.close();
-            if (conn != null) conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -99; // 데이터베이스 오류를 나타내는 코드
         }
     }
 }
