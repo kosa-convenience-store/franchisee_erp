@@ -5,13 +5,15 @@ import java.io.*;
 import java.util.Properties;
 
 public class Query {
-    private static Properties properties = new Properties();
+    private static Properties properties;
 
     public Query() {
     }
 
     static {
+
         try {
+            properties = new Properties();
             properties.loadFromXML(new FileInputStream("src/resource/query.xml"));
         } catch (FileNotFoundException e) {
             System.out.println("예외: 지정한 파일을 찾을수없습니다 :" + e.getMessage());
@@ -19,6 +21,7 @@ public class Query {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     static void getprop() {
@@ -27,7 +30,7 @@ public class Query {
         }
     }
 
-    public static String getQuery(String sqlKey){
+    public static String getQuery(String sqlKey) {
         getprop();
         return properties.getProperty(sqlKey);
     }

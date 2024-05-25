@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OrderServiceImpl implements OrderService{
-    private OrderDaoImpl dao;
+    private final OrderDaoImpl dao;
     private static OrderServiceImpl instance;
 
     private OrderServiceImpl() {
@@ -16,13 +16,14 @@ public class OrderServiceImpl implements OrderService{
     }
 
     public static OrderServiceImpl getInstance() {
+        new OrderServiceImpl();
         if (instance == null) { instance = new OrderServiceImpl(); }
         return instance;
     }
 
     @Override
     public Map<String, Integer> getProductMap() throws SQLException {
-        return dao.getAllProduct(Query.getQuery("getProductList"));
+        return dao.getAllProduct(Query.getQuery("getProdcutList"));
     }
 
     @Override

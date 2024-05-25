@@ -16,7 +16,7 @@ public class DBConnection {
     }
 
     static {
-        Properties properties  = new Properties();
+        Properties properties = new Properties();
         Reader reader;
         try {
             reader = new FileReader("src/resource/db.properties");
@@ -49,10 +49,6 @@ public class DBConnection {
     }
 
     public static Connection getConnection() throws SQLException {
-        if (conn == null) {
-            conn = DBConnection.getConnection();
-            conn.setAutoCommit(false);
-        }
         return conn;
     }
 }

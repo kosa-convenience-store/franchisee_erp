@@ -71,15 +71,6 @@ public class OrderGui extends JFrame {
         JButton addButton = new JButton("담기");
         formPanel.add(addButton, gbc);
 
-//        String[] columnNames = {"상품 이름", "개수", "가격", "총 가격", "수정", "삭제"};
-//        DefaultTableModel tableModel = new DefaultTableModel(new String[] {"상품 이름", "개수", "가격", "총 가격", "수정", "삭제"}, 0);
-//        JTable table = new JTable(tableModel) {
-//            @Override
-//            public boolean isCellEditable(int row, int column) {
-//                return column == 4 || column == 5;
-//            }
-//        };
-
         JScrollPane tableScrollPane = new JScrollPane(table);
 
         JPanel totalPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -102,6 +93,8 @@ public class OrderGui extends JFrame {
             int totalPrice = Integer.parseInt(quantity) * price;
             tableModel.addRow(new Object[]{productName, quantity, String.valueOf(price), String.valueOf(totalPrice), "수정", "삭제"});
             updateTotalAmount(tableModel);
+            productSearchField.setText("");
+            quantityField.setText("");
         });
 
         searchButton.addActionListener(e -> {
@@ -128,7 +121,13 @@ public class OrderGui extends JFrame {
         orderRequestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addOrderRuquest();
+                try {
+                    addOrderRuquest();
+                    productSearchField.setText("");
+                    quantityField.setText("");
+                } catch (Exception exception){
+                    exception.printStackTrace();
+                }
             }
         });
 
@@ -172,10 +171,20 @@ public class OrderGui extends JFrame {
         }
         try {
             service.orderProduct(tableList);
+            alertRequestInfo();
+            tableModel.getDataVector().removeAllElements();
+            tableModel.fireTableDataChanged();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private void alertRequestInfo() {
+        String message = "발주 요청이 완료되었습니다.";
+        String title = "작업 완료";
+        int messageType = JOptionPane.INFORMATION_MESSAGE;
+        JOptionPane.showMessageDialog(null, message, title, messageType);
     }
 
     //
