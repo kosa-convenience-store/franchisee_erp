@@ -4,7 +4,6 @@ import main.java.com.ouibak.erp.domain.franchisee.FranchiseeDao;
 import main.java.com.ouibak.erp.gui.tabbedMain.TabbedGui;
 
 import javax.swing.*;
-import java.sql.SQLException;
 
 public class LoginGui extends javax.swing.JFrame {
     private javax.swing.JTextField inputIdTextField;
@@ -81,35 +80,25 @@ public class LoginGui extends javax.swing.JFrame {
     }
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // Get the text from the input fields
-        String userId = inputIdTextField.getText();
-        String password = new String(inputPasswordField.getPassword());
-
         FranchiseeDao dao = new FranchiseeDao();
-        try {
-            int result = dao.validateLogin(userId, password);
 
-            // 로그인 검증 프로시저 결과 출력
+            // 입력 필드에서 텍스트 가져오기
+            String userId = inputIdTextField.getText();
+            String password = new String(inputPasswordField.getPassword());
+            int result = dao.validateLogin(userId, password);
+            System.out.println(result);
+
+            // 로그인 검증 함수 결과 출력
             if (result == -1) {
                 JOptionPane.showMessageDialog(this, "아이디가 틀렸습니다. 다시 시도하세요.");
             } else if (result == -2) {
                 JOptionPane.showMessageDialog(this, "비밀번호가 틀렸습니다. 다시 시도하세요.");
+            } else if (result == -99) {
+                JOptionPane.showMessageDialog(this, "데이터베이스 오류가 발생했습니다.");
             } else {
                 JOptionPane.showMessageDialog(this, "로그인 성공");
                 new TabbedGui().setVisible(true);
                 setVisible(false);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "데이터베이스 오류가 발생했습니다.");
-        }
-    }
-
-    public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginGui().setVisible(true);
-            }
-        });
     }
 }
