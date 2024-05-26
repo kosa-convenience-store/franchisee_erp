@@ -1,8 +1,8 @@
 package main.java.com.ouibak.erp.gui.tabpannel.orderGui;
 
-import main.java.com.ouibak.erp.domain.orderList.orderList.Order;
-import main.java.com.ouibak.erp.domain.orderList.orderList.OrderDao;
-import main.java.com.ouibak.erp.domain.orderList.orderList.OrderDetail;
+import main.java.com.ouibak.erp.domain.orderList.Order;
+import main.java.com.ouibak.erp.domain.orderList.OrderDao;
+import main.java.com.ouibak.erp.domain.orderList.OrderDetail;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -95,10 +95,10 @@ public class OrderListGui {
         List<OrderDetail> orderDetails = orderDao.getOrderDetails(orderIdx);
 
         // 상세 내역을 보여줄 다이얼로그 생성
-        String[] columnNames = {"발주 번호", "물품 번호", "수량"};
+        String[] columnNames = {"발주 번호", "물품 이름", "수량"};
         DefaultTableModel detailTableModel = new DefaultTableModel(columnNames, 0);
         for (OrderDetail detail : orderDetails) {
-            detailTableModel.addRow(new Object[]{detail.getOrderIdx(), detail.getProductIdx(), detail.getCount()});
+            detailTableModel.addRow(new Object[]{detail.getOrderIdx(), detail.getProductName(), detail.getCount()});
         }
 
         JTable detailTable = new JTable(detailTableModel);
