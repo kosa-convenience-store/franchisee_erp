@@ -1,23 +1,18 @@
-package main.java.com.ouibak.erp.domain.orderList.orderList;
+package main.java.com.ouibak.erp.domain.orderList;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import main.java.com.ouibak.erp.dao.DBConnection;
+import main.java.com.ouibak.erp.dao.DBDaoImpl;
 import oracle.jdbc.OracleTypes;
 
-public class OrderDao {
+public class OrderDao extends DBDaoImpl {
 
     private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
     private static final String USER = "franchisee";
     private static final String PASSWORD = "0000";
-
-
 
     // 발주 조회
     public List<Order> getRecentOrdersPaging(int pageNumber, int pageSize) {
@@ -55,8 +50,7 @@ public class OrderDao {
         List<OrderDetail> orderDetails = new ArrayList<>();
         String query = "{CALL get_order_details(?, ?)}";
 
-        try (Connection connection = DBConnection.getConnection();
-             //
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              CallableStatement callableStatement = connection.prepareCall(query)) {
 
             callableStatement.setInt(1, orderIdx);
@@ -68,7 +62,7 @@ public class OrderDao {
                 while (resultSet.next()) {
                     OrderDetail detail = new OrderDetail();
                     detail.setOrderIdx(resultSet.getInt("order_idx"));
-                    detail.setProductIdx(resultSet.getInt("product_idx"));
+                    detail.setProductName(resultSet.getString("product_name"));
                     detail.setCount(resultSet.getInt("count"));
                     orderDetails.add(detail);
                 }
