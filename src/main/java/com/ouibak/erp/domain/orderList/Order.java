@@ -1,4 +1,4 @@
-package main.java.com.ouibak.erp.domain.orderList.orderList;
+package main.java.com.ouibak.erp.domain.orderList;
 
 import java.sql.Timestamp;
 

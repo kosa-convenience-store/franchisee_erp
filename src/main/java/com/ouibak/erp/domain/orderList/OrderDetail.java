@@ -1,8 +1,8 @@
-package main.java.com.ouibak.erp.domain.orderList.orderList;
+package main.java.com.ouibak.erp.domain.orderList;
 
 public class OrderDetail {
     private int orderIdx;
-    private int productIdx;
+    private String productName;
     private int count;
 
     // Getters and setters
@@ -14,12 +14,12 @@ public class OrderDetail {
         this.orderIdx = orderIdx;
     }
 
-    public int getProductIdx() {
-        return productIdx;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setProductIdx(int productIdx) {
-        this.productIdx = productIdx;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public int getCount() {
