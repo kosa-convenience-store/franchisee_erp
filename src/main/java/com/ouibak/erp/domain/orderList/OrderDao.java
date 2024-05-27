@@ -6,6 +6,7 @@ import java.util.List;
 
 import main.java.com.ouibak.erp.dao.DBConnection;
 import main.java.com.ouibak.erp.dao.DBDaoImpl;
+import main.java.com.ouibak.erp.dao.Query;
 import oracle.jdbc.OracleTypes;
 
 public class OrderDao extends DBDaoImpl {
@@ -17,7 +18,7 @@ public class OrderDao extends DBDaoImpl {
     // 발주 조회
     public List<Order> getRecentOrdersPaging(int pageNumber, int pageSize) {
         List<Order> orders = new ArrayList<>();
-        String query = "{CALL get_recent_orders_paging(?, ?, ?)}";
+        String query = Query.getQuery("getOrderList");
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              CallableStatement callableStatement = connection.prepareCall(query)) {
@@ -48,7 +49,7 @@ public class OrderDao extends DBDaoImpl {
     // 발주 상세 조회
     public List<OrderDetail> getOrderDetails(int orderIdx) {
         List<OrderDetail> orderDetails = new ArrayList<>();
-        String query = "{CALL get_order_details(?, ?)}";
+        String query = Query.getQuery("getOrderDetail");
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              CallableStatement callableStatement = connection.prepareCall(query)) {
