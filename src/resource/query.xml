@@ -1,34 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-    <entry key="getFranchiseeIdx">
-        {call get_franchisee_idx(?)}
+
+    <!-- 로그인 요청 -->
+
+    <!-- 발주 요청 -->
+    <entry key="getProdcutList">
+        {call get_productlist_proc(?)}
     </entry>
 
     <entry key="createOrder">
         {call insert_order_proc(?, ?)}
     </entry>
 
-
-
-    <entry key="getProductList">
-        SELECT PRODUCT_NAME, PRODUCT_PRICE FROM TBL_PRODUCT
-    </entry>
-
     <entry key="insertOrderList">
-        DECLARE
-        v_order_idx NUMBER := ?;
-        v_product_name VARCHAR2(50) := ?;
-        v_count NUMBER := ?;
-        BEGIN
-        IN_ORDERLIST_PROC(
-        p_order_idx => v_order_idx,
-        p_product_name => v_product_name,
-        p_count => v_count
-        );
-        END;
+        {call in_orderlist_proc(?, ?, ?)}
     </entry>
 
+    <!-- 발주 조회 -->
+    <entry key="getOrderList">
+        {CALL get_recent_orders_paging(?, ?, ?)}
+    </entry>
 
+    <!-- 발주 상세 조회 -->
+    <entry key="getOrderDetail">
+        {CALL get_order_details(?, ?)}
+    </entry>
+
+    <!-- 결제 조회 -->
+    <entry key="getTransacList">
+        {CALL get_transactions_paging(?, ?, ?)}
+    </entry>
+
+    <!-- 결제 상세 조회 -->
+    <entry key="getTransacDetail">
+        {CALL get_transaction_details(?, ?)}
+    </entry>
 
 </properties>

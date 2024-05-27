@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.com.ouibak.erp.dao.DBDaoImpl;
+import main.java.com.ouibak.erp.dao.Query;
 import oracle.jdbc.OracleTypes;
 
 public class TransactionDao extends DBDaoImpl {
@@ -16,7 +17,7 @@ public class TransactionDao extends DBDaoImpl {
     // 결제 내역 조회
     public List<Transaction> getTransactionsPaging(int pageNumber, int pageSize) {
         List<Transaction> transactions = new ArrayList<>();
-        String query = "{CALL get_transactions_paging(?, ?, ?)}";
+        String query = Query.getQuery("getTransacList");
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              CallableStatement callableStatement = connection.prepareCall(query)) {
@@ -45,7 +46,7 @@ public class TransactionDao extends DBDaoImpl {
     // 결제 상세 내역 조회
     public List<TransactionDetail> getTransactionDetails(int transactionId) {
         List<TransactionDetail> transactionDetails = new ArrayList<>();
-        String query = "{CALL get_transaction_details(?, ?)}";
+        String query = Query.getQuery("getTransacDetail");
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              CallableStatement callableStatement = connection.prepareCall(query)) {
