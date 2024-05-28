@@ -18,11 +18,6 @@ public class StatisticsServieImpl implements StatisticsService{
     }
 
     @Override
-    public void getProductList() throws SQLException {
-
-    }
-
-    @Override
     public List<List<Integer>> getStatistics(String productName) throws SQLException {
         return dao.getStatistics("", productName);
     }

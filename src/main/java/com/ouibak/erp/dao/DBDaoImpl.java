@@ -5,14 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBDaoImpl implements DBDao {
-//    private static DBDaoImpl instance = null;
-//    private DBDaoImpl() {}
-//    public static DBDaoImpl getInstance() {
-//        if (instance == null) {instance = new DBDaoImpl();}
-//        return instance;
-//    }
 
-    //---------------------------------------------------------------
     @Override
     public void commitDB() throws SQLException {
         Connection conn = DBConnection.getConnection();
@@ -114,14 +107,6 @@ public class DBDaoImpl implements DBDao {
         }
         return result.toArray(new String[result.size()][size]);
     }
-
-//    public String[] getStringArray(String sqlQuery) throws SQLException {
-//        ResultSet rs = getData(sqlQuery);
-//        ArrayList<String> result = new ArrayList<>();
-//        while (rs.next()) {
-//
-//        }
-//    }
 
     @Override
     public String[] getStringData(String sqlQuery, int size, String[] values) throws SQLException {
