@@ -1,4 +1,4 @@
-package main.java.com.ouibak.erp.domain.transaction;
+package main.java.com.ouibak.erp.domain.transactionList;
 
 public class TransactionDetail {
     private int transactionId;

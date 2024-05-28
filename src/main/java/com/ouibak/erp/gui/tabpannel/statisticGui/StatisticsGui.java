@@ -80,8 +80,8 @@ public class StatisticsGui extends JPanel {
 
     private List<List<Integer>> searchAndDisplayChart() {
         String productName = (String) productSearchField.getSelectedItem();
-        java.util.Date startDate = startDateChooser.getDate();
-        java.util.Date endDate = endDateChooser.getDate();
+        Date startDate = startDateChooser.getDate();
+        Date endDate = endDateChooser.getDate();
 
         if (productName == null || startDate == null || endDate == null) {
             JOptionPane.showMessageDialog(this, "모든 필드를 입력해 주세요.", "오류", JOptionPane.ERROR_MESSAGE);
@@ -111,7 +111,7 @@ public class StatisticsGui extends JPanel {
     private List<List<Integer>> fetchData(String productName, java.sql.Date startDate, java.sql.Date endDate) {
         List<List<Integer>> dataPoints = new ArrayList<>();
         try {
-            dataPoints = service.getStatistics( productName );
+            dataPoints = service.getStatistics( productName , startDate, endDate);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

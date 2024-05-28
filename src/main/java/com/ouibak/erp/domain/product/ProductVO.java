@@ -8,9 +8,14 @@ public class ProductVO {
     private static ProductVO vo;
     private static List<Integer>  productIdx;
     private static List<String> productNames;
+
     private static HashMap<Integer, Integer> productIdxPrice;
     private static HashMap<Integer, String> productIdxName;
     private static HashMap<String, Integer> productNamePrice;
+
+    private static HashMap<Integer, Object[]> productPriceMap;
+
+
 
     public static ProductVO getInstance(){
         if(vo == null){
@@ -70,4 +75,12 @@ public class ProductVO {
         ProductVO.productNamePrice = productNamePrice;
     }
 
+    public static HashMap<Integer, Object[]> getProductPriceMap() {
+        if (productPriceMap == null) {getInstance();}
+        return productPriceMap;
+    }
+
+    public static void setProductPriceMap(HashMap<Integer, Object[]> productPriceMap) {
+        ProductVO.productPriceMap = productPriceMap;
+    }
 }

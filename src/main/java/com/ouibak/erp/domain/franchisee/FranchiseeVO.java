@@ -3,7 +3,7 @@ package main.java.com.ouibak.erp.domain.franchisee;
 public class FranchiseeVO {
     private static int franchiseeId;
 
-    public int getFranchiseeId() {
+    public static int getFranchiseeId() {
         return franchiseeId;
     }
 

@@ -1,8 +1,8 @@
 package main.java.com.ouibak.erp.gui.tabpannel.transactionGui;
 
-import main.java.com.ouibak.erp.domain.transaction.Transaction;
-import main.java.com.ouibak.erp.domain.transaction.TransactionDao;
-import main.java.com.ouibak.erp.domain.transaction.TransactionDetail;
+import main.java.com.ouibak.erp.domain.transactionList.Transaction;
+import main.java.com.ouibak.erp.domain.transactionList.TransactionDao;
+import main.java.com.ouibak.erp.domain.transactionList.TransactionDetail;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
