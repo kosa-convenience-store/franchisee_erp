@@ -17,6 +17,11 @@
         {call in_transaclist_proc(?, ?, ?)}
     </entry>
 
+    <!--  재고 확인  -->
+    <entry key="getInventory">
+        {call get_inventory_paging(?, ?, ?, ?)}
+    </entry>
+
     <!--  발주 요청  -->
     <entry key="createOrder">
         {call insert_order_proc(?, ?)}
