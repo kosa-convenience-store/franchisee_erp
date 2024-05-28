@@ -1,5 +1,6 @@
 package main.java.com.ouibak.erp.gui.tabpannel.orderGui;
 
+import main.java.com.ouibak.erp.domain.product.ProductVO;
 import main.java.com.ouibak.erp.domain.orderRequest.OrderServiceImpl;
 
 import javax.swing.*;
@@ -31,12 +32,8 @@ public class OrderGui extends JFrame {
 
     private void getData() {
         service = OrderServiceImpl.getInstance();
-        try {
-            productPriceMap = service.getProductMap();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        availableProducts = new ArrayList<>(productPriceMap.keySet());
+        availableProducts = ProductVO.getProductNames();
+        productPriceMap = ProductVO.getProductNamePrice();
     }
 
     public JPanel createOrderRegistrationPanel() {
@@ -157,7 +154,6 @@ public class OrderGui extends JFrame {
     private void addOrderRuquest(){
         List<Object[]> tableList = new ArrayList<>();
         int rowCnt = tableModel.getRowCount();
-//        int columnCnt = tableModel.getColumnCount();
         for (int i = 0; i < rowCnt; i++) {
             Object[] row = new Object[2];
             for (int j = 0; j < 2; j++) {

@@ -1,8 +1,8 @@
 package main.java.com.ouibak.erp.gui.tabpannel.statisticGui;
 
+import main.java.com.ouibak.erp.domain.product.ProductVO;
 import main.java.com.ouibak.erp.domain.statistics.StatisticsService;
 import main.java.com.ouibak.erp.domain.statistics.StatisticsServieImpl;
-import main.java.com.ouibak.erp.domain.statistics.StatisticsVO;
 import com.toedter.calendar.JDateChooser;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -24,18 +24,11 @@ public class StatisticsGui extends JPanel {
     private ChartPanel chartPanel;
 
     private StatisticsService service;
-    private StatisticsVO vo;
-    private String[] availableProducts;
+    private List<String> availableProducts;
 
     private void getData() {
         service = StatisticsServieImpl.getInstance();
-        vo = StatisticsVO.getInstance();
-        try {
-            service.getProductList();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        availableProducts = vo.getProductArr();
+        availableProducts = ProductVO.getProductNames();
     }
 
     public JPanel createStatisticsPanel() {
@@ -47,7 +40,7 @@ public class StatisticsGui extends JPanel {
 
         statisticsPanel.add(new JLabel("상품 명"));
 
-        productSearchField = new JComboBox<>(availableProducts);
+        productSearchField = new JComboBox<>(availableProducts.toArray(new String[availableProducts.size()]));
         productSearchField.setPreferredSize(new Dimension(150, 25));
         productSearchField.setEditable(true);
         AutoCompleteDecorator.decorate(productSearchField);
@@ -78,7 +71,6 @@ public class StatisticsGui extends JPanel {
                 chartPanel.updateData(
                         test.get(0),
                         test.get(1)
-//                        test.get(2).get(0)
                 );
             }
         });

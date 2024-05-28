@@ -8,9 +8,6 @@ import java.util.Objects;
 
 public interface OrderDao {
 
-    // 상품 전체 목록을 가져와  hashMap으로 저장하고 반환하는 메서드
-    public Map<String, Integer> getAllProduct(String sqlQuery) throws SQLException;
-
     // 발주 요청하는 메서드
     public int craeteOrder(String sqlQuery) throws SQLException;
 
