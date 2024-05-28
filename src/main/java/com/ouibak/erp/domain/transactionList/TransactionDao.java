@@ -1,4 +1,4 @@
-package main.java.com.ouibak.erp.domain.transaction;
+package main.java.com.ouibak.erp.domain.transactionList;
 
 import java.sql.*;
 import java.util.ArrayList;

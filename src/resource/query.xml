@@ -5,8 +5,19 @@
     <entry key="getProductList">
         {call get_productlist_proc(?)}
     </entry>
+
     <!-- 로그인 요청 -->
 
+    <!--  결제 요청  -->
+    <entry key="requestTransaction">
+        {call insert_transac_proc(?, ?, ?)}
+    </entry>
+
+    <entry key="insertTransacList">
+        {call in_transaclist_proc(?, ?, ?)}
+    </entry>
+
+    <!--  발주 요청  -->
     <entry key="createOrder">
         {call insert_order_proc(?, ?)}
     </entry>
@@ -33,6 +44,11 @@
     <!-- 결제 상세 조회 -->
     <entry key="getTransacDetail">
         {CALL get_transaction_details(?, ?)}
+    </entry>
+
+    <!--  상품 판매, 발주 통계  -->
+    <entry key="getWeeklyStatistics">
+        {call get_weekly_statistics(?, ?, ?, ?, ?)}
     </entry>
 
 </properties>

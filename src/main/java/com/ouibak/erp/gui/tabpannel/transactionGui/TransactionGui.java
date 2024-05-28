@@ -1,6 +1,7 @@
 package main.java.com.ouibak.erp.gui.tabpannel.transactionGui;
 
 import main.java.com.ouibak.erp.domain.product.ProductVO;
+import main.java.com.ouibak.erp.domain.transactionRequest.TransactionServiceImpl;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -8,12 +9,14 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
 
 public class TransactionGui extends JFrame {
-    private List<String> availableProducts;
-    private Map<String, Integer> productPriceMap;
+    private List<Integer> availableProducts;
+    private Map<Integer, Object[]> productPriceMap;
+
     private JTextField totalAmountField;
     DefaultTableModel tableModel = new DefaultTableModel(new String[]{"상품 이름", "개수", "가격", "총 가격", "수정", "삭제"}, 0);
 
@@ -24,24 +27,12 @@ public class TransactionGui extends JFrame {
         }
     };
 
-    public TransactionGui() {
-//        initialize();
-    }
-
-//    private void initialize() {
-//        getData();
-//        setTitle("Transaction GUI");
-//        setSize(800, 600);
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setLocationRelativeTo(null);
-//        setLayout(new BorderLayout());
-//        add(createTransactionPanel(), BorderLayout.CENTER);
-//        setVisible(true);
-//    }
+    private TransactionServiceImpl service;
 
     private void getData() {
-        availableProducts = ProductVO.getProductNames();
-        productPriceMap = ProductVO.getProductNamePrice();
+        service = TransactionServiceImpl.getInstance();
+        productPriceMap = ProductVO.getProductPriceMap();
+        availableProducts = productPriceMap.keySet().stream().toList();
     }
 
     public JPanel createTransactionPanel() {
@@ -106,17 +97,17 @@ public class TransactionGui extends JFrame {
         totalAmountField.setEditable(false);
         totalPanel.add(totalAmountField);
         totalPanel.add(new JLabel("원"));
-        JButton orderRequestButton = new JButton("결제");
-        totalPanel.add(orderRequestButton);
+        JButton transactionRequestButton = new JButton("결제");
+        totalPanel.add(transactionRequestButton);
 
-        orderRequestButton.addActionListener(e -> processOrderRequest());
+        transactionRequestButton.addActionListener(e -> processTransactionRequest());
 
         return totalPanel;
     }
 
     private void addProductToTable(JTextField productNumberField, JTextField quantityField) {
-        String productNumber = productNumberField.getText();
-        if (!productPriceMap.containsKey(productNumber)) {
+        int productIdx = Integer.valueOf(productNumberField.getText());
+        if (!productPriceMap.containsKey(productIdx)) {
             JOptionPane.showMessageDialog(this, "존재하지 않는 상품입니다.", "오류", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -124,8 +115,8 @@ public class TransactionGui extends JFrame {
         if (!quantityField.getText().isEmpty()) {
             quantity = Integer.parseInt(quantityField.getText());
         }
-        String productName = productNumber; // Assuming product name is same as product number
-        int price = productPriceMap.get(productNumber);
+        String productName = (String) productPriceMap.get(productIdx)[0]; // Assuming product name is same as product number
+        int price = (int) productPriceMap.get(productIdx)[1];
         boolean productExists = false;
         for (int i = 0; i < tableModel.getRowCount(); i++) {
             if (tableModel.getValueAt(i, 0).equals(productName)) {
@@ -156,25 +147,29 @@ public class TransactionGui extends JFrame {
         totalAmountField.setText(String.valueOf(totalAmount));
     }
 
-    private void processOrderRequest() {
-//        List<Object[]> tableList = new ArrayList<>();
-//        int rowCnt = tableModel.getRowCount();
-//        for (int i = 0; i < rowCnt; i++) {
-//            Object[] row = new Object[2];
-//            for (int j = 0; j < 2; j++) {
-//                row[j] = tableModel.getValueAt(i, j);
-//            }
-//            tableList.add(row);
-//        }
-//
-//        try {
-//            service.orderProduct(tableList);
-//            alertRequestInfo();
-//            tableModel.getDataVector().removeAllElements();
-//            tableModel.fireTableDataChanged();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
+    private void processTransactionRequest() {
+        List<Object[]> tableList = new ArrayList<>();
+        int rowCnt = tableModel.getRowCount();
+        for (int i = 0; i < rowCnt; i++) {
+            Object[] row = new Object[2];
+            for (int j = 0; j<2; j++) {
+                System.out.println(j +" " +tableModel.getValueAt(i, j));
+                row[j] = tableModel.getValueAt(i, j);
+
+            }
+            tableList.add(row);
+        }
+
+        try {
+            service.requestTransaction(tableList, Integer.parseInt(totalAmountField.getText()));
+            alertRequestInfo();
+            tableModel.getDataVector().removeAllElements();
+            tableModel.fireTableDataChanged();
+            totalAmountField.setText("");
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void alertRequestInfo() {
