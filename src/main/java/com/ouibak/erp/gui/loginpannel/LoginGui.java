@@ -1,6 +1,6 @@
 package main.java.com.ouibak.erp.gui.loginpannel;
 
-import main.java.com.ouibak.erp.domain.franchisee.FranchiseeDao;
+import main.java.com.ouibak.erp.domain.login.LoginDao;
 import main.java.com.ouibak.erp.gui.tabbedMain.TabbedGui;
 
 import javax.swing.*;
@@ -80,7 +80,7 @@ public class LoginGui extends javax.swing.JFrame {
     }
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        FranchiseeDao dao = new FranchiseeDao();
+        LoginDao dao = new LoginDao();
 
             // 입력 필드에서 텍스트 가져오기
             String userId = inputIdTextField.getText();

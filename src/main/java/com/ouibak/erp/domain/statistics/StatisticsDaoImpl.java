@@ -1,9 +1,7 @@
 package main.java.com.ouibak.erp.domain.statistics;
 
 import main.java.com.ouibak.erp.dao.DBDaoImpl;
-import oracle.jdbc.OracleTypes;
 
-import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,19 +19,6 @@ public class StatisticsDaoImpl extends DBDaoImpl implements StatisticsDao{
     }
 
     @Override
-    public String[] getAllProduct(String sqlQuery) throws SQLException {
-        List<String> list = new ArrayList<String>();
-        CallableStatement cstmt = getCStmt(sqlQuery);
-        cstmt.registerOutParameter(1, OracleTypes.CURSOR);
-        cstmt.execute();
-        ResultSet rs = (ResultSet) cstmt.getObject(1);
-        while (rs.next()){
-            list.add(rs.getString(1));
-        }
-        cstmt.close();
-        return list.toArray(new String[list.size()]);
-    }
-
     public List<List<Integer>> getStatistics(String sqlQuery, String productName) throws SQLException {
         List<List<Integer>> list = new ArrayList<>();
         list.add(new ArrayList<>());

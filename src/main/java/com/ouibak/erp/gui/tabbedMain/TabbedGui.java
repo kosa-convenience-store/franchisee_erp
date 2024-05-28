@@ -2,7 +2,7 @@ package main.java.com.ouibak.erp.gui.tabbedMain;
 
 import main.java.com.ouibak.erp.gui.tabpannel.orderGui.OrderTabGui;
 import main.java.com.ouibak.erp.gui.tabpannel.statisticGui.StatisticsGui;
-import main.java.com.ouibak.erp.gui.tabpannel.transactionGui.TransacTabGui;
+import main.java.com.ouibak.erp.gui.tabpannel.transactionGui.TransactionTabGui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +31,7 @@ public class TabbedGui extends JFrame {
         tabbedPane = new JTabbedPane();
 
         //create panels for each tab
-        paymentPanel = new TransacTabGui().createTransactionPanel();
+        paymentPanel = new TransactionTabGui().createTransactionManagementPanel();
         invenPanel = new JPanel();
         orderPanel = new OrderTabGui().createOrderManagementPanel();
         wareHousingPanel = new JPanel();

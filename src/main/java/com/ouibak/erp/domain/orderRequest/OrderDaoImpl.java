@@ -1,12 +1,9 @@
 package main.java.com.ouibak.erp.domain.orderRequest;
 
 import main.java.com.ouibak.erp.dao.DBDaoImpl;
-import oracle.jdbc.OracleTypes;
 
 import java.sql.*;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class OrderDaoImpl extends DBDaoImpl implements OrderDao{
     private static OrderDaoImpl dao;
@@ -16,30 +13,6 @@ public class OrderDaoImpl extends DBDaoImpl implements OrderDao{
     public static OrderDaoImpl getInstance(){
         if (dao == null){ dao = new OrderDaoImpl();}
         return dao;
-    }
-
-    public Map<String, Integer> test(String sqlQuery) throws SQLException {
-        ResultSet rs = getData(sqlQuery);
-        Map<String, Integer> map = new HashMap<>();
-        while (rs.next()) {
-            map.put(rs.getString(1), rs.getInt(2));
-        }
-        return map;
-    }
-
-    @Override
-    public Map<String, Integer> getAllProduct(String sqlQuery) throws SQLException {
-        Map<String, Integer> map = new HashMap<>();
-        CallableStatement cstmt = getCStmt(sqlQuery);
-        cstmt.registerOutParameter(1, OracleTypes.CURSOR);
-        cstmt.execute();
-        ResultSet rs = (ResultSet) cstmt.getObject(1);
-
-        while (rs.next()) {
-            map.put(rs.getString(1), rs.getInt(2));
-        }
-        cstmt.close();
-        return map;
     }
 
     @Override
