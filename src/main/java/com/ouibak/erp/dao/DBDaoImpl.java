@@ -92,7 +92,7 @@ public class DBDaoImpl implements DBDao {
     @Override
     public String[] getStringData(String sqlQuery, int size) throws SQLException {
         ResultSet rs = getData(sqlQuery);
-        String[] result = new String[size]; int idx = 0;
+        String[] result = new String[size];
         while (rs.next()) {
             for (int i = 0; i < size; i++) {
                 result[i] = rs.getString(i + 1);

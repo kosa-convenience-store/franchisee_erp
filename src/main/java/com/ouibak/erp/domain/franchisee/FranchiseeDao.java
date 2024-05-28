@@ -25,7 +25,9 @@ public class FranchiseeDao {
             cstm.execute();
 
             // 함수의 반환 값을 가져옴
-            return cstm.getInt(1);
+            int franchiseeIdx = cstm.getInt(1);
+            if (franchiseeIdx > 0) {FranchiseeVO vo = new FranchiseeVO(); vo.setFranchiseeId(franchiseeIdx);}
+            return franchiseeIdx;
         } catch (SQLException e) {
             e.printStackTrace();
             return -99; // 데이터베이스 오류를 나타내는 코드

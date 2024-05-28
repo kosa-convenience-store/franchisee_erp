@@ -26,7 +26,7 @@ public class TransactionDao extends DBDaoImpl {
             callableStatement.setInt(2, pageSize);
             callableStatement.registerOutParameter(3, OracleTypes.CURSOR);
 
-            callableStatement.execute();
+            callableStatement.executeQuery();
 
             try (ResultSet resultSet = (ResultSet) callableStatement.getObject(3)) {
                 while (resultSet.next()) {
