@@ -1,11 +1,9 @@
 package main.java.com.ouibak.erp.domain.orderRequest;
 
-import main.java.com.ouibak.erp.dao.DBDaoImpl;
 import main.java.com.ouibak.erp.dao.Query;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 public class OrderServiceImpl implements OrderService{
     private final OrderDaoImpl dao;
@@ -19,11 +17,6 @@ public class OrderServiceImpl implements OrderService{
         new OrderServiceImpl();
         if (instance == null) { instance = new OrderServiceImpl(); }
         return instance;
-    }
-
-    @Override
-    public Map<String, Integer> getProductMap() throws SQLException {
-        return dao.getAllProduct(Query.getQuery("getProdcutList"));
     }
 
     @Override
