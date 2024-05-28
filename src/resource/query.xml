@@ -37,6 +37,11 @@
         {CALL get_transaction_details(?, ?)}
     </entry>
 
+    <!-- 통계 확인 -->
+    <entry key="getProductListS">
+        {call get_productLists_proc(?)}
+    </entry>
+
     <!-- 통계 데이터 조회 -->
     <entry key="getStatistics">
         {CALL get_weekly_statistics(?, ?, ?, ?, ?)}
