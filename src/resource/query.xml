@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-
     <!-- 로그인 요청 -->
 
     <!-- 발주 요청 -->
@@ -35,6 +34,11 @@
     <!-- 결제 상세 조회 -->
     <entry key="getTransacDetail">
         {CALL get_transaction_details(?, ?)}
+    </entry>
+
+    <!-- 통계 확인 -->
+    <entry key="getProductListS">
+        {call get_productLists_proc(?)}
     </entry>
 
 </properties>
