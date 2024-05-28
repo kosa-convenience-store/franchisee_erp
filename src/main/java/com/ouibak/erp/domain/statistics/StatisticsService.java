@@ -5,6 +5,8 @@ import java.util.List;
 
 public interface StatisticsService {
 
+    void getProductList() throws SQLException;
+
     List<List<Integer>> getStatistics(String productName) throws SQLException;
 
 }
