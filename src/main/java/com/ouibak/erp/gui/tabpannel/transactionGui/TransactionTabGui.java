@@ -6,6 +6,15 @@ import java.awt.*;
 public class TransactionTabGui extends JFrame {
     private JPanel cardPanel;
     private CardLayout cardLayout;
+    private TransactionListGui transactionListGui;
+
+    public TransactionTabGui() {
+        transactionListGui = new TransactionListGui();
+    }
+
+    public TransactionListGui getTransactionListGui() {
+        return transactionListGui;
+    }
 
     public JPanel createTransactionManagementPanel() {
         JPanel panel = new JPanel(new BorderLayout());
@@ -19,15 +28,17 @@ public class TransactionTabGui extends JFrame {
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
         cardPanel.add(new TransactionGui().createTransactionPanel(), "결제");
-        cardPanel.add(new TransactionListGui().createTransactionPanel(), "결제 내역");
+        cardPanel.add(transactionListGui.createTransactionPanel(), "결제 내역"); // 동일 인스턴스를 사용
 
         panel.add(sidePanel, BorderLayout.WEST);
         panel.add(cardPanel, BorderLayout.CENTER);
 
         registerButton.addActionListener(e -> cardLayout.show(cardPanel, "결제"));
-        historyButton.addActionListener(e -> cardLayout.show(cardPanel, "결제 내역"));
+        historyButton.addActionListener(e -> {
+            transactionListGui.resetTransacTableData(); // transactionListGui 인스턴스를 재사용
+            cardLayout.show(cardPanel, "결제 내역");
+        });
 
         return panel;
     }
-
 }

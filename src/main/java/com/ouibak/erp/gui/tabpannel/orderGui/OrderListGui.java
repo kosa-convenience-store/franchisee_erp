@@ -69,7 +69,7 @@ public class OrderListGui {
         return orderHistoryPanel;
     }
 
-    private void updateTableData() {
+    public void updateTableData() {
         SwingWorker<Void, Order> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() {
@@ -89,6 +89,12 @@ public class OrderListGui {
             }
         };
         worker.execute();
+    }
+
+    public void resetTableData() {
+        orderTableModel.setRowCount(0);  // Clear existing data
+        currentPage = 1;
+        updateTableData();
     }
 
     private void showOrderDetails(int orderIdx) {
