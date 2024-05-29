@@ -27,12 +27,12 @@ public class TabbedGui extends JFrame {
         northPanel.add(storeLabelPanel, BorderLayout.EAST);
         add(northPanel, BorderLayout.NORTH);
 
-
         //create the tabbed pane
         tabbedPane = new JTabbedPane();
 
         //create panels for each tab
-        paymentPanel = new TransactionTabGui().createTransactionManagementPanel();
+        paymentPanel =  new TransactionTabGui().createTransactionManagementPanel();
+
         invenPanel = new InventoryGui().createInventoryPanel();
         orderPanel = new OrderTabGui().createOrderManagementPanel();
         wareHousingPanel = new JPanel();
@@ -51,7 +51,5 @@ public class TabbedGui extends JFrame {
 
         //Add tabbed pane to the frame
         add(tabbedPane, BorderLayout.CENTER);
-
     }
 }
-

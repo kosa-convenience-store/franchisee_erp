@@ -54,7 +54,7 @@ public class TransactionListGui {
             }
         });
 
-//        transactionHistoryPanel.add(orderTableScrollPane, BorderLayout.CENTER);
+        transactionPanel.add(transactionTableScrollPane, BorderLayout.CENTER);
 
         // Add a mouse listener to handle clicks on the transaction table
         transactionTable.addMouseListener(new MouseAdapter() {
@@ -98,6 +98,12 @@ public class TransactionListGui {
             }
         };
         worker.execute();
+    }
+
+    public void resetTransacTableData() {
+        transactionTableModel.setRowCount(0);
+        currentPage = 1;
+        updateTransactionTableData();
     }
 
     private void showTransactionDetails(int transactionId) {
