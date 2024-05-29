@@ -5,7 +5,7 @@ import main.java.com.ouibak.erp.dao.DBDaoImpl;
 import java.sql.*;
 import java.util.List;
 
-public class OrderDaoImpl extends DBDaoImpl implements OrderDao{
+public class OrderDaoImpl extends DBDaoImpl implements OrderDao {
     private static OrderDaoImpl dao;
 
     public OrderDaoImpl(){}
