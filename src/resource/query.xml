@@ -10,11 +10,11 @@
 
     <!--  결제 요청  -->
     <entry key="requestTransaction">
-        {call insert_transac_proc(?, ?, ?)}
+        {call TRANSACTION_PACKAGE.insert_transac_proc(?, ?, ?)}
     </entry>
 
     <entry key="insertTransacList">
-        {call in_transaclist_proc(?, ?, ?)}
+        {call TRANSACTION_PACKAGE.in_transac_list_proc(?, ?, ?)}
     </entry>
 
     <!--  재고 확인  -->
@@ -24,31 +24,31 @@
 
     <!--  발주 요청  -->
     <entry key="createOrder">
-        {call insert_order_proc(?, ?)}
+        {call ORDER_PACKAGE.insert_order_proc(?, ?)}
     </entry>
 
     <entry key="insertOrderList">
-        {call in_orderlist_proc(?, ?, ?)}
+        {call ORDER_PACKAGE.in_orderlist_proc(?, ?, ?)}
     </entry>
 
     <!-- 발주 조회 -->
     <entry key="getOrderList">
-        {CALL get_recent_orders_paging(?, ?, ?)}
+        {CALL ORDER_PACKAGE.get_recent_orders_paging(?, ?, ?, ?)}
     </entry>
 
     <!-- 발주 상세 조회 -->
     <entry key="getOrderDetail">
-        {CALL get_order_details(?, ?)}
+        {CALL ORDER_PACKAGE.get_order_details(?, ?)}
     </entry>
 
     <!-- 결제 조회 -->
     <entry key="getTransacList">
-        {CALL get_transactions_paging(?, ?, ?)}
+        {CALL TRANSACTION_PACKAGE.get_transactions_paging(?, ?, ?, ?)}
     </entry>
 
     <!-- 결제 상세 조회 -->
     <entry key="getTransacDetail">
-        {CALL get_transaction_details(?, ?)}
+        {CALL TRANSACTION_PACKAGE.get_transaction_details(?, ?)}
     </entry>
 
     <!--  상품 판매, 발주 통계  -->

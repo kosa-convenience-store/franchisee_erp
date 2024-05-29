@@ -6,6 +6,7 @@ import java.util.List;
 
 import main.java.com.ouibak.erp.dao.DBDaoImpl;
 import main.java.com.ouibak.erp.dao.Query;
+import main.java.com.ouibak.erp.domain.franchisee.FranchiseeVO;
 import oracle.jdbc.OracleTypes;
 
 public class TransactionDao extends DBDaoImpl {
@@ -24,11 +25,12 @@ public class TransactionDao extends DBDaoImpl {
 
             callableStatement.setInt(1, pageNumber);
             callableStatement.setInt(2, pageSize);
-            callableStatement.registerOutParameter(3, OracleTypes.CURSOR);
+            callableStatement.setInt(3, FranchiseeVO.getFranchiseeId());
+            callableStatement.registerOutParameter(4, OracleTypes.CURSOR);
 
             callableStatement.executeQuery();
 
-            try (ResultSet resultSet = (ResultSet) callableStatement.getObject(3)) {
+            try (ResultSet resultSet = (ResultSet) callableStatement.getObject(4)) {
                 while (resultSet.next()) {
                     Transaction transaction = new Transaction();
                     transaction.setTransactionId(resultSet.getInt("transac_idx"));

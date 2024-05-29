@@ -193,9 +193,6 @@ public class OrderGui extends JFrame {
             tableList.add(row);
         }
 
-        for (Object[] row : tableList) {
-            System.out.println(Arrays.toString(row));
-        }
         try {
             service.orderProduct(tableList);
             alertRequestInfo();
