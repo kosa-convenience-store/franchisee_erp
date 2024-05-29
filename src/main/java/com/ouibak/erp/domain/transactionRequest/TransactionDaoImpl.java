@@ -26,7 +26,6 @@ public class TransactionDaoImpl extends DBDaoImpl implements TransactionDao {
     public int craeteTransaction(String sqlQuery, int totalPrice) throws SQLException {
         CallableStatement cstmt = getCStmt(sqlQuery);
         cstmt.setInt(1, FranchiseeVO.getFranchiseeId());
-        System.out.println(totalPrice);
         cstmt.setInt(2, totalPrice);
         cstmt.registerOutParameter(3, Types.INTEGER);
         cstmt.execute();

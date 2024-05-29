@@ -153,7 +153,6 @@ public class TransactionGui extends JFrame {
         for (int i = 0; i < rowCnt; i++) {
             Object[] row = new Object[2];
             for (int j = 0; j<2; j++) {
-                System.out.println(j +" " +tableModel.getValueAt(i, j));
                 row[j] = tableModel.getValueAt(i, j);
 
             }

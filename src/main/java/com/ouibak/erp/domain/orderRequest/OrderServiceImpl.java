@@ -23,7 +23,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void orderProduct(List<Object[]> values) throws SQLException {
         int orderId = dao.craeteOrder(Query.getQuery("createOrder"));
-        System.out.println("orderId = " + orderId);
         dao.addOrderList(Query.getQuery("insertOrderList"), orderId, values);
         dao.commitDB();
     }

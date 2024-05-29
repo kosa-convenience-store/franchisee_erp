@@ -45,7 +45,6 @@ public class StatisticsDaoImpl extends DBDaoImpl implements StatisticsDao {
             while (resultSet.next()) {
 
                 String week = resultSet.getString("day_of_week");
-                System.out.println(week);
                 int idx = -1;
                 switch (week) {
                     case "SUN" : idx = 0; break;
