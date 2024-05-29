@@ -45,18 +45,18 @@ public class InventoryGui {
                 if (!isLoading && !e.getValueIsAdjusting() && e.getAdjustable().getMaximum() == (e.getValue() + e.getAdjustable().getVisibleAmount())) {
                     isLoading = true;
                     currentPage++;
-                    updateTableData();
+                    updateInvenTableData();
                 }
             }
         });
 
         inventoryPanel.add(inventoryTableScrollPane, BorderLayout.CENTER);
 
-        updateTableData();
+        updateInvenTableData();
         return inventoryPanel;
     }
 
-    private void updateTableData() {
+    private void updateInvenTableData() {
         SwingWorker<Void, InventoryVO> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() {
@@ -83,4 +83,9 @@ public class InventoryGui {
         worker.execute();
     }
 
+    public void resetInvenTableData() {
+        invenTableModel.setRowCount(0);
+        currentPage = 1;
+        updateInvenTableData();
+    }
 }
