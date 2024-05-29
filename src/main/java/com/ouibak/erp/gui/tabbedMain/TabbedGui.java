@@ -6,12 +6,15 @@ import main.java.com.ouibak.erp.gui.tabpannel.statisticGui.StatisticsGui;
 import main.java.com.ouibak.erp.gui.tabpannel.transactionGui.TransactionTabGui;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 public class TabbedGui extends JFrame {
     private JTabbedPane tabbedPane;
     private JPanel paymentPanel, invenPanel, orderPanel, wareHousingPanel,
             disposePanel, salesPanel, statisticsPanel;
+    private InventoryGui inventoryGui;  // InventoryGui 인스턴스 저장
 
     public TabbedGui() {
         setTitle("XXXX ERP 프로그램");
@@ -19,7 +22,6 @@ public class TabbedGui extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        //
         JPanel northPanel = new JPanel(new BorderLayout());
         JLabel storeLabelPanel = new JLabel("xxxx 가맹점  ", SwingConstants.RIGHT);
         storeLabelPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -31,9 +33,11 @@ public class TabbedGui extends JFrame {
         tabbedPane = new JTabbedPane();
 
         //create panels for each tab
-        paymentPanel =  new TransactionTabGui().createTransactionManagementPanel();
+        TransactionTabGui transactionTabGui = new TransactionTabGui();
+        paymentPanel = transactionTabGui.createTransactionManagementPanel();
 
-        invenPanel = new InventoryGui().createInventoryPanel();
+        inventoryGui = new InventoryGui();
+        invenPanel = inventoryGui.createInventoryPanel();
         orderPanel = new OrderTabGui().createOrderManagementPanel();
         wareHousingPanel = new JPanel();
         disposePanel = new JPanel();
@@ -49,7 +53,24 @@ public class TabbedGui extends JFrame {
         tabbedPane.addTab("판매내역", salesPanel);
         tabbedPane.addTab("통계", statisticsPanel);
 
+        //Add change listener to the tabbed pane
+        tabbedPane.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (tabbedPane.getSelectedComponent() == invenPanel) {
+                    inventoryGui.resetInvenTableData();
+                }
+            }
+        });
+
         //Add tabbed pane to the frame
         add(tabbedPane, BorderLayout.CENTER);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            TabbedGui gui = new TabbedGui();
+            gui.setVisible(true);
+        });
     }
 }
