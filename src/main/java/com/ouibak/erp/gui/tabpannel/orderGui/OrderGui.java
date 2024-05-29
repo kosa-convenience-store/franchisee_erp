@@ -1,5 +1,6 @@
 package main.java.com.ouibak.erp.gui.tabpannel.orderGui;
 
+import main.java.com.ouibak.erp.domain.franchisee.FranchiseeVO;
 import main.java.com.ouibak.erp.domain.product.ProductVO;
 import main.java.com.ouibak.erp.domain.orderRequest.OrderServiceImpl;
 
@@ -119,9 +120,39 @@ public class OrderGui extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    addOrderRuquest();
-                    productSearchField.setText("");
-                    quantityField.setText("");
+                    int franchiseeIdx = FranchiseeVO.getFranchiseeId();  // 로그인된 가맹점 번호
+                    int threshold = 25;     // 임계값 (%)
+
+                    List<Object[]> tableList = new ArrayList<>();
+                    int rowCnt = tableModel.getRowCount();
+                    for (int i = 0; i < rowCnt; i++) {
+                        Object[] row = new Object[2];
+                        row[0] = service.getProductIdByName((String) tableModel.getValueAt(i, 0)); // product id
+                        row[1] = tableModel.getValueAt(i, 1); // quantity
+                        tableList.add(row);
+                    }
+
+                    String warningMessages = service.checkOrderErrors(franchiseeIdx, tableList, threshold);
+
+                    if (!warningMessages.isEmpty()) {
+                        int response = JOptionPane.showConfirmDialog(
+                                null,
+                                warningMessages,
+                                "경고",
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.WARNING_MESSAGE
+                        );
+
+                        if (response == JOptionPane.YES_OPTION) {
+                            addOrderRequest();
+                            productSearchField.setText("");
+                            quantityField.setText("");
+                        }
+                    } else {
+                        addOrderRequest();
+                        productSearchField.setText("");
+                        quantityField.setText("");
+                    }
                 } catch (Exception exception){
                     exception.printStackTrace();
                 }
@@ -151,7 +182,7 @@ public class OrderGui extends JFrame {
         totalAmountField.setText(String.valueOf(totalAmount));
     }
 
-    private void addOrderRuquest(){
+    private void addOrderRequest() {
         List<Object[]> tableList = new ArrayList<>();
         int rowCnt = tableModel.getRowCount();
         for (int i = 0; i < rowCnt; i++) {
@@ -173,7 +204,6 @@ public class OrderGui extends JFrame {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     private void alertRequestInfo() {
@@ -183,7 +213,6 @@ public class OrderGui extends JFrame {
         JOptionPane.showMessageDialog(null, message, title, messageType);
     }
 
-    //
     class ButtonEditor extends DefaultCellEditor {
         private String label;
         private boolean isPushed;
@@ -213,14 +242,12 @@ public class OrderGui extends JFrame {
                             isPushed = false;
                             updateTotalAmount(tableModel);
                             fireEditingStopped();
-
                         } else if (actionType.equals("삭제")) {
                             int editRow = table.getSelectedRow();
                             if (editRow >= 0 && editRow < tableModel.getRowCount()) {
                                 deleteRow(editRow);
                             }
                             isPushed = false;
-//                            updateTotalAmount(tableModel);
                             Component component = table.getTopLevelAncestor();
                             if (component instanceof OrderGui) {
                                 ((OrderGui) component).updateTotalAmount(tableModel);
@@ -259,10 +286,6 @@ public class OrderGui extends JFrame {
         private void deleteRow(int row) {
             tableModel.removeRow(row);
         }
-
-        private void addOrder(){
-
-        }
     }
 
     class ButtonRenderer extends JButton implements TableCellRenderer {
@@ -276,6 +299,4 @@ public class OrderGui extends JFrame {
             return this;
         }
     }
-
 }
-

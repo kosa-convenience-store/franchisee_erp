@@ -56,4 +56,8 @@
         {call get_weekly_statistics(?, ?, ?, ?, ?)}
     </entry>
 
+    <!-- 발주 에러 체크 -->
+    <entry key="orderErrorCheck">
+        {call order_error_check(?, ?, ?, ?, ?, ?)}
+    </entry>
 </properties>
