@@ -89,4 +89,8 @@ public class OrderServiceImpl implements OrderService {
             throw new SQLException("No product found with id: " + productId);
         }
     }
+
+    public int getRateOrderError() throws SQLException {
+        return dao.getRateOrderError();
+    }
 }

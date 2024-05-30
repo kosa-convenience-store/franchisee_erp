@@ -124,7 +124,9 @@ public class OrderGui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int franchiseeIdx = FranchiseeVO.getFranchiseeId();  // 로그인된 가맹점 번호
-                    int threshold = 25;     // 임계값 (%)
+
+//                    int threshold = 25;     // 임계값 (%)
+                    int threshold = service.getRateOrderError();
 
                     List<Object[]> tableList = new ArrayList<>();
                     int rowCnt = tableModel.getRowCount();
