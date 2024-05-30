@@ -48,6 +48,9 @@ public class TransactionGui extends JFrame {
         table.getColumn("삭제").setCellRenderer(new ButtonRenderer());
         table.getColumn("삭제").setCellEditor(new ButtonEditor(new JCheckBox(), tableModel, table, "삭제"));
 
+        // 행 높이 설정
+        table.setRowHeight(30);
+
         return transactionPanel;
     }
 

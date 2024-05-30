@@ -11,24 +11,19 @@ import oracle.jdbc.OracleTypes;
 
 public class TransactionDao extends DBDaoImpl {
 
-    private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
-    private static final String USER = "franchisee";
-    private static final String PASSWORD = "0000";
-
     // 결제 내역 조회
     public List<Transaction> getTransactionsPaging(int pageNumber, int pageSize) {
         List<Transaction> transactions = new ArrayList<>();
         String query = Query.getQuery("getTransacList");
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             CallableStatement callableStatement = connection.prepareCall(query)) {
+        try (CallableStatement callableStatement = getCStmt(query)) {
 
             callableStatement.setInt(1, pageNumber);
             callableStatement.setInt(2, pageSize);
             callableStatement.setInt(3, FranchiseeVO.getFranchiseeId());
             callableStatement.registerOutParameter(4, OracleTypes.CURSOR);
 
-            callableStatement.executeQuery();
+            callableStatement.execute();
 
             try (ResultSet resultSet = (ResultSet) callableStatement.getObject(4)) {
                 while (resultSet.next()) {
@@ -50,8 +45,7 @@ public class TransactionDao extends DBDaoImpl {
         List<TransactionDetail> transactionDetails = new ArrayList<>();
         String query = Query.getQuery("getTransacDetail");
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             CallableStatement callableStatement = connection.prepareCall(query)) {
+        try (CallableStatement callableStatement = getCStmt(query)) {
 
             callableStatement.setInt(1, transactionId);
             callableStatement.registerOutParameter(2, OracleTypes.CURSOR);
