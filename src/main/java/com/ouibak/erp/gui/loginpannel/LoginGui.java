@@ -32,8 +32,18 @@ public class LoginGui extends javax.swing.JFrame {
 
         inputIdTextField.setFont(new java.awt.Font("맑은 고딕", 0, 14));
         inputIdTextField.setText("ID");
+        inputIdTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginButtonActionPerformed(evt);
+            }
+        });
 
         inputPasswordField.setText("Password");
+        inputPasswordField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginButtonActionPerformed(evt);
+            }
+        });
 
         loginButton.setText("로그인");
         loginButton.addActionListener(new java.awt.event.ActionListener() {
