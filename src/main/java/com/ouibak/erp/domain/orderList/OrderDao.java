@@ -53,8 +53,7 @@ public class OrderDao extends DBDaoImpl {
         List<OrderDetail> orderDetails = new ArrayList<>();
         String query = Query.getQuery("getOrderDetail");
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             CallableStatement callableStatement = connection.prepareCall(query)) {
+        try (CallableStatement callableStatement = getCStmt(query)) {
 
             callableStatement.setInt(1, orderIdx);
             callableStatement.registerOutParameter(2, OracleTypes.CURSOR);

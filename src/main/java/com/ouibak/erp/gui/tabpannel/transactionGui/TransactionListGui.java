@@ -111,7 +111,13 @@ public class TransactionListGui {
 
         // 상세 내역을 보여줄 다이얼로그 생성
         String[] columnNames = {"결제 번호", "물품 이름", "수량"};
-        DefaultTableModel detailTableModel = new DefaultTableModel(columnNames, 0);
+
+        DefaultTableModel detailTableModel = new DefaultTableModel(columnNames, 0){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;  // 모든 셀 read-only
+            }
+        };
         for (TransactionDetail detail : transactionDetails) {
             detailTableModel.addRow(new Object[]{detail.getTransactionId(), detail.getProductName(), detail.getCount()});
         }

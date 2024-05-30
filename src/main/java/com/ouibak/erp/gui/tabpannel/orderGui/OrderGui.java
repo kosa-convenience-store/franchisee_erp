@@ -71,6 +71,9 @@ public class OrderGui extends JFrame {
 
         JScrollPane tableScrollPane = new JScrollPane(table);
 
+        // 행 높이 설정
+        table.setRowHeight(30);
+
         JPanel totalPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         totalPanel.add(new JLabel("총 금액"));
         totalAmountField = new JTextField(10);
