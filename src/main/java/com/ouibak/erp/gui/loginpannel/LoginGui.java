@@ -20,6 +20,7 @@ public class LoginGui extends javax.swing.JFrame {
         setTitle("XXXX ERP 프로그램");
         setSize(1115, 672);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
         jLabel1 = new javax.swing.JLabel();
         inputIdTextField = new javax.swing.JTextField();
