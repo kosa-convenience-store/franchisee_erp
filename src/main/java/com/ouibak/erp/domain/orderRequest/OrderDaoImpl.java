@@ -1,6 +1,7 @@
 package main.java.com.ouibak.erp.domain.orderRequest;
 
 import main.java.com.ouibak.erp.dao.DBDaoImpl;
+import main.java.com.ouibak.erp.domain.franchisee.FranchiseeVO;
 
 import java.sql.*;
 import java.util.List;
@@ -40,5 +41,14 @@ public class OrderDaoImpl extends DBDaoImpl implements OrderDao {
         }
         pstmt.executeBatch();
         pstmt.clearBatch();
+    }
+
+    public int getRateOrderError() throws SQLException {
+        String query = "SELECT rate_for_order FROM TBL_FRANCHISEE_INFO WHERE FRANCHISEE_IDX = ?";
+        PreparedStatement pstmt = getPreStmt(query);
+        pstmt.setInt(1, FranchiseeVO.getFranchiseeId());
+        ResultSet rs = pstmt.executeQuery();
+        rs.next();
+        return rs.getInt(1);
     }
 }
