@@ -1,5 +1,6 @@
 package main.java.com.ouibak.erp.gui.loginpannel;
 
+import main.java.com.ouibak.erp.domain.franchisee.FranchiseeVO;
 import main.java.com.ouibak.erp.domain.login.LoginDao;
 import main.java.com.ouibak.erp.gui.tabbedMain.TabbedGui;
 
@@ -17,7 +18,7 @@ public class LoginGui extends javax.swing.JFrame {
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
-        setTitle("XXXX ERP 프로그램");
+        setTitle("KOSA ERP 프로그램");
         setSize(1115, 672);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -28,7 +29,7 @@ public class LoginGui extends javax.swing.JFrame {
         loginButton = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("휴먼엑스포", 1, 48));
-        jLabel1.setText("XXXX ERP PROGRAM");
+        jLabel1.setText("KOSA ERP PROGRAM");
 
         inputIdTextField.setFont(new java.awt.Font("맑은 고딕", 0, 14));
         inputIdTextField.setText("ID");
