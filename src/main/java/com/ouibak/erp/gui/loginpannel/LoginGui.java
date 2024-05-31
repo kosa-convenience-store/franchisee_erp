@@ -5,6 +5,8 @@ import main.java.com.ouibak.erp.domain.login.LoginDao;
 import main.java.com.ouibak.erp.gui.tabbedMain.TabbedGui;
 
 import javax.swing.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 public class LoginGui extends javax.swing.JFrame {
     private javax.swing.JTextField inputIdTextField;
@@ -33,13 +35,47 @@ public class LoginGui extends javax.swing.JFrame {
 
         inputIdTextField.setFont(new java.awt.Font("맑은 고딕", 0, 14));
         inputIdTextField.setText("ID");
+        inputIdTextField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (inputIdTextField.getText().equals("ID")) {
+                    inputIdTextField.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (inputIdTextField.getText().isEmpty()) {
+                    inputIdTextField.setText("ID");
+                }
+            }
+        });
         inputIdTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginButtonActionPerformed(evt);
             }
         });
 
+        inputPasswordField.setFont(new java.awt.Font("맑은 고딕", 0, 14));
         inputPasswordField.setText("Password");
+        inputPasswordField.setEchoChar((char) 0); // Show placeholder text
+        inputPasswordField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (String.valueOf(inputPasswordField.getPassword()).equals("Password")) {
+                    inputPasswordField.setText("");
+                    inputPasswordField.setEchoChar('●'); // Hide text with bullet characters
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (String.valueOf(inputPasswordField.getPassword()).isEmpty()) {
+                    inputPasswordField.setText("Password");
+                    inputPasswordField.setEchoChar((char) 0); // Show placeholder text
+                }
+            }
+        });
         inputPasswordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginButtonActionPerformed(evt);
@@ -52,6 +88,10 @@ public class LoginGui extends javax.swing.JFrame {
                 loginButtonActionPerformed(evt);
             }
         });
+
+        // 포커스 순서 설정
+        inputIdTextField.setNextFocusableComponent(inputPasswordField);
+        inputPasswordField.setNextFocusableComponent(loginButton);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,28 +129,36 @@ public class LoginGui extends javax.swing.JFrame {
         );
 
         pack();
+
+        // 초기 포커스를 없애기 위해 타이머를 사용하여 포커스를 설정합니다.
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                getContentPane().requestFocusInWindow();
+            }
+        });
     }
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {
         LoginDao dao = new LoginDao();
 
-            // 입력 필드에서 텍스트 가져오기
-            String userId = inputIdTextField.getText();
-            String password = new String(inputPasswordField.getPassword());
-            int result = dao.validateLogin(userId, password);
-            System.out.println(result);
+        // 입력 필드에서 텍스트 가져오기
+        String userId = inputIdTextField.getText();
+        String password = new String(inputPasswordField.getPassword());
+        int result = dao.validateLogin(userId, password);
+        System.out.println(result);
 
-            // 로그인 검증 함수 결과 출력
-            if (result == -1) {
-                JOptionPane.showMessageDialog(this, "아이디가 틀렸습니다. 다시 시도하세요.");
-            } else if (result == -2) {
-                JOptionPane.showMessageDialog(this, "비밀번호가 틀렸습니다. 다시 시도하세요.");
-            } else if (result == -99) {
-                JOptionPane.showMessageDialog(this, "데이터베이스 오류가 발생했습니다.");
-            } else {
-                JOptionPane.showMessageDialog(this, "로그인 성공");
-                new TabbedGui().setVisible(true);
-                setVisible(false);
-            }
+        // 로그인 검증 함수 결과 출력
+        if (result == -1) {
+            JOptionPane.showMessageDialog(this, "아이디가 틀렸습니다. 다시 시도하세요.");
+        } else if (result == -2) {
+            JOptionPane.showMessageDialog(this, "비밀번호가 틀렸습니다. 다시 시도하세요.");
+        } else if (result == -99) {
+            JOptionPane.showMessageDialog(this, "데이터베이스 오류가 발생했습니다.");
+        } else {
+            JOptionPane.showMessageDialog(this, "로그인 성공");
+            new TabbedGui().setVisible(true);
+            setVisible(false);
+        }
     }
 }
