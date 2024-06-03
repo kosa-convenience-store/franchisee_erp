@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-    <!--  상품 불러오기  -->
+<!--    로그인 요청-->
+    <entry key="login">
+        {? = call validate_login(?, ?)}
+    </entry>
+
+<!--    Franchisee Info page-->
+<!--    가맹점 정보-->
+    <entry key="getFranchiseeInfo">
+        {call FRANCHISEE_INFO_PACKAGE.get_fran_info_proc(?, ?)}
+    </entry>
+<!--    가맹점 상품 랭킹 가져오기-->
+    <entry key="getFranchiseeProductRank">
+        {call FRANCHISEE_INFO_PACKAGE.get_product_rank_proc(?, ?)}
+    </entry>
+
+<!--    Order Error Rate 가져오기-->
+    <entry key="getOrderRate">
+        {call get_order_rate(?, ?)}
+    </entry>
+<!--    Order Error Rate 업데이트하기-->
+    <entry key="updateOrderRate">
+        {call update_order_rate(?, ?)}
+    </entry>
+
+<!--    Product Domain-->
+<!--    상품 불러오기-->
     <entry key="getProductList">
         {call get_productlist_proc(?)}
     </entry>
 
-    <!-- 로그인 요청 -->
-
-    <!--  결제 요청  -->
+<!--    결제-->
+<!--    결제요청-->
     <entry key="requestTransaction">
         {call TRANSACTION_PACKAGE.insert_transac_proc(?, ?, ?)}
     </entry>
@@ -16,13 +40,17 @@
     <entry key="insertTransacList">
         {call TRANSACTION_PACKAGE.in_transac_list_proc(?, ?, ?)}
     </entry>
-
-    <!--  재고 확인  -->
-    <entry key="getInventory">
-        {call get_inventory_paging(?, ?, ?, ?)}
+<!--    결제 조회-->
+    <entry key="getTransacList">
+        {CALL TRANSACTION_PACKAGE.get_transactions_paging(?, ?, ?, ?)}
+    </entry>
+<!--    결제 상세 조회-->
+    <entry key="getTransacDetail">
+        {CALL TRANSACTION_PACKAGE.get_transaction_details(?, ?)}
     </entry>
 
-    <!--  발주 요청  -->
+<!--    발주-->
+<!--    발주 요청-->
     <entry key="createOrder">
         {call ORDER_PACKAGE.insert_order_proc(?, ?)}
     </entry>
@@ -30,34 +58,29 @@
     <entry key="insertOrderList">
         {call ORDER_PACKAGE.in_orderlist_proc(?, ?, ?)}
     </entry>
-
-    <!-- 발주 조회 -->
+<!--    발주 조회-->
     <entry key="getOrderList">
         {CALL ORDER_PACKAGE.get_recent_orders_paging(?, ?, ?, ?)}
     </entry>
-
-    <!-- 발주 상세 조회 -->
+<!--    발주 상세 조회-->
     <entry key="getOrderDetail">
         {CALL ORDER_PACKAGE.get_order_details(?, ?)}
     </entry>
-
-    <!-- 결제 조회 -->
-    <entry key="getTransacList">
-        {CALL TRANSACTION_PACKAGE.get_transactions_paging(?, ?, ?, ?)}
+<!--    발주 에러 체크-->
+    <entry key="orderErrorCheck">
+        {call order_error_check(?, ?, ?, ?, ?, ?, ?)}
     </entry>
 
-    <!-- 결제 상세 조회 -->
-    <entry key="getTransacDetail">
-        {CALL TRANSACTION_PACKAGE.get_transaction_details(?, ?)}
+<!--    재고-->
+<!--    재고 확인-->
+    <entry key="getInventory">
+        {call get_inventory_paging(?, ?, ?, ?)}
     </entry>
 
-    <!--  상품 판매, 발주 통계  -->
+<!--    통계-->
+<!--    상품 판매, 발주 통계-->
     <entry key="getWeeklyStatistics">
         {call get_weekly_statistics(?, ?, ?, ?, ?)}
     </entry>
 
-    <!-- 발주 에러 체크 -->
-    <entry key="orderErrorCheck">
-        {call order_error_check(?, ?, ?, ?, ?, ?)}
-    </entry>
 </properties>

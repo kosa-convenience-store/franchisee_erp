@@ -1,7 +1,7 @@
 package main.java.com.ouibak.erp.gui.loginpannel;
 
-import main.java.com.ouibak.erp.domain.franchisee.FranchiseeVO;
-import main.java.com.ouibak.erp.domain.login.LoginDao;
+import main.java.com.ouibak.erp.domain.franchisee.FranchiseeController;
+import main.java.com.ouibak.erp.gui.Cookie;
 import main.java.com.ouibak.erp.gui.tabbedMain.TabbedGui;
 
 import javax.swing.*;
@@ -9,12 +9,15 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 public class LoginGui extends javax.swing.JFrame {
-    private javax.swing.JTextField inputIdTextField;
-    private javax.swing.JPasswordField inputPasswordField;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JButton loginButton;
+    private FranchiseeController controller;
+
+    private JTextField inputIdTextField;
+    private JPasswordField inputPasswordField;
+    private JLabel jLabel1;
+    private JButton loginButton;
 
     public LoginGui() {
+        controller = new FranchiseeController();
         initComponents();
     }
 
@@ -140,13 +143,10 @@ public class LoginGui extends javax.swing.JFrame {
     }
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        LoginDao dao = new LoginDao();
-
         // 입력 필드에서 텍스트 가져오기
         String userId = inputIdTextField.getText();
         String password = new String(inputPasswordField.getPassword());
-        int result = dao.validateLogin(userId, password);
-        System.out.println(result);
+        int result = controller.validateLogin(userId, password);
 
         // 로그인 검증 함수 결과 출력
         if (result == -1) {
@@ -157,6 +157,7 @@ public class LoginGui extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "데이터베이스 오류가 발생했습니다.");
         } else {
             JOptionPane.showMessageDialog(this, "로그인 성공");
+            Cookie.setFranchiseeIdx(result);
             new TabbedGui().setVisible(true);
             setVisible(false);
         }

@@ -1,8 +1,9 @@
 package main.java.com.ouibak.erp.gui.tabpannel.orderGui;
 
-import main.java.com.ouibak.erp.domain.franchisee.FranchiseeVO;
-import main.java.com.ouibak.erp.domain.product.ProductVO;
-import main.java.com.ouibak.erp.domain.orderRequest.OrderServiceImpl;
+import main.java.com.ouibak.erp.domain.franchisee.FranchiseeController;
+import main.java.com.ouibak.erp.domain.order.OrderController;
+import main.java.com.ouibak.erp.domain.product.ProductController;
+import main.java.com.ouibak.erp.gui.Cookie;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -10,18 +11,19 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class OrderGui extends JFrame {
+    private OrderController controller;
+    private ProductController productController;
+
     private List<String> availableProducts;
     private Map<String, Integer> productPriceMap;
     private JTextField totalAmountField;
     DefaultTableModel tableModel = new DefaultTableModel(new String[] {"상품 이름", "개수", "가격", "총 가격", "수정", "삭제"}, 0);
-
     JTable table = new JTable(tableModel) {
         @Override
         public boolean isCellEditable(int row, int column) {
@@ -29,16 +31,14 @@ public class OrderGui extends JFrame {
         }
     };
 
-    private OrderServiceImpl service;
-
-    private void getData() {
-        service = OrderServiceImpl.getInstance();
-        availableProducts = ProductVO.getProductNames();
-        productPriceMap = ProductVO.getProductNamePrice();
+    public OrderGui() {
+        controller = new OrderController();
+        productController = new ProductController();
+        availableProducts = productController.getProductNames();
+        productPriceMap = productController.getProductNamePrice();
     }
 
     public JPanel createOrderRegistrationPanel() {
-        getData();
         JPanel orderRegistrationPanel = new JPanel(new BorderLayout());
 
         JPanel formPanel = new JPanel(new GridBagLayout());
@@ -123,21 +123,22 @@ public class OrderGui extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int franchiseeIdx = FranchiseeVO.getFranchiseeId();  // 로그인된 가맹점 번호
 
-//                    int threshold = 25;     // 임계값 (%)
-                    int threshold = service.getRateOrderError();
+                    FranchiseeController franchiseeController = new FranchiseeController();
+                    int threshold = franchiseeController.getOrderErrorRate(Cookie.getFranchiseeIdx()); // 임계값 (%)
+                    System.out.println(threshold);
 
                     List<Object[]> tableList = new ArrayList<>();
                     int rowCnt = tableModel.getRowCount();
                     for (int i = 0; i < rowCnt; i++) {
                         Object[] row = new Object[2];
-                        row[0] = service.getProductIdByName((String) tableModel.getValueAt(i, 0)); // product id
+//                        row[0] = service.getProductIdByName((String) tableModel.getValueAt(i, 0)); // product id
+                        row[0] = productController.getProductIdxByName((String) tableModel.getValueAt(i, 0)); // product id
                         row[1] = tableModel.getValueAt(i, 1); // quantity
                         tableList.add(row);
                     }
 
-                    String warningMessages = service.checkOrderErrors(franchiseeIdx, tableList, threshold);
+                    String warningMessages = controller.checkOrderErrors(Cookie.getFranchiseeIdx(), tableList, threshold);
 
                     if (!warningMessages.isEmpty()) {
                         int response = JOptionPane.showConfirmDialog(
@@ -197,15 +198,10 @@ public class OrderGui extends JFrame {
             }
             tableList.add(row);
         }
-
-        try {
-            service.orderProduct(tableList);
-            alertRequestInfo();
-            tableModel.getDataVector().removeAllElements();
-            tableModel.fireTableDataChanged();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        controller.orderProducts(Cookie.getFranchiseeIdx(), tableList);
+        alertRequestInfo();
+        tableModel.getDataVector().removeAllElements();
+        tableModel.fireTableDataChanged();
     }
 
     private void alertRequestInfo() {
