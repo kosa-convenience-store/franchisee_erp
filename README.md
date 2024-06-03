@@ -3,7 +3,7 @@
 <img width="800" src="https://github.com/kosa-convenience-store/franchisee_erp/assets/111065848/46319d77-f75d-441c-9048-08bbcfe6788f" />
 <img width="800" src="https://github.com/kosa-convenience-store/franchisee_erp/assets/111065848/91ced7e8-9aba-4963-aa70-f35e02887297" />
 
-#### 프로젝트 기간 : 2024.05.20 ~ 2024.05.31
+#### 프로젝트 기간 : ```2024.05.20 ~ 2024.05.31```
 
 <br />
 
@@ -25,6 +25,10 @@
 <br />
 <br />
 
+## ERD
+<img width="800" alt="image" src="https://github.com/kosa-convenience-store/franchisee_erp/assets/111065848/98432c98-b782-4830-8873-176b3e4a5f9d">
+<br />
+<br />
 
 ## 팀원 소개
 |    [@pppssshhh](https://github.com/pppssshhh)   |      [@Wildturkeyy](https://github.com/Wildturkeyy)         |           [@suehub](https://github.com/suehub)        |
