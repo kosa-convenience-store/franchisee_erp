@@ -1,6 +1,7 @@
 package main.java.com.ouibak.erp.gui.tabbedMain;
 
-import main.java.com.ouibak.erp.domain.franchisee.FranchiseeVO;
+import main.java.com.ouibak.erp.domain.franchisee.FranchiseeController;
+import main.java.com.ouibak.erp.gui.Cookie;
 import main.java.com.ouibak.erp.gui.tabpannel.infoGui.InfoGui;
 import main.java.com.ouibak.erp.gui.tabpannel.inventoryGui.InventoryGui;
 import main.java.com.ouibak.erp.gui.tabpannel.orderGui.OrderTabGui;
@@ -15,11 +16,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class TabbedGui extends JFrame {
+    private FranchiseeController controller;
+
     private JTabbedPane tabbedPane;
     private JPanel paymentPanel, invenPanel, orderPanel, statisticsPanel, storeInfoPanel;
     private InventoryGui inventoryGui;
 
     public TabbedGui() {
+        controller = new FranchiseeController();
+
         setTitle("KOSA ERP 프로그램");
         setSize(1115, 672);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,7 +33,7 @@ public class TabbedGui extends JFrame {
 
         JPanel northPanel = new JPanel(new BorderLayout());
 
-        JLabel storeLabelPanel = new JLabel(FranchiseeVO.getFranchiseeName() + " 가맹점  ", SwingConstants.RIGHT);
+        JLabel storeLabelPanel = new JLabel(controller.getFranchiseeName(Cookie.getFranchiseeIdx()) + " 가맹점  ", SwingConstants.RIGHT);
         storeLabelPanel.setFont(new Font("맑은 고딕", 0, 14));
         storeLabelPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         northPanel.add(storeLabelPanel, BorderLayout.EAST);

@@ -1,17 +1,20 @@
 package main.java.com.ouibak.erp.gui.tabpannel.inventoryGui;
 
+import main.java.com.ouibak.erp.domain.inventory.InventoryController;
 import main.java.com.ouibak.erp.domain.inventory.InventoryDaoImpl;
-import main.java.com.ouibak.erp.domain.inventory.InventoryVO;
+import main.java.com.ouibak.erp.domain.inventory.InventoryDto;
+import main.java.com.ouibak.erp.gui.Cookie;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-import java.sql.SQLException;
 import java.util.List;
 
 public class InventoryGui {
+    private InventoryController controller;
+
     private DefaultTableModel invenTableModel;
     private InventoryDaoImpl inventoryDao;
     private int currentPage = 1;
@@ -19,7 +22,7 @@ public class InventoryGui {
     private boolean isLoading = false;
 
     public InventoryGui() {
-        inventoryDao = new InventoryDaoImpl();
+        controller = new InventoryController();
     }
 
     public JPanel createInventoryPanel() {
@@ -57,24 +60,20 @@ public class InventoryGui {
     }
 
     private void updateInvenTableData() {
-        SwingWorker<Void, InventoryVO> worker = new SwingWorker<>() {
+        SwingWorker<Void, InventoryDto> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() {
-                List<InventoryVO> inventory = null;
-                try {
-                    inventory = inventoryDao.getInventory(currentPage, pageSize);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-                for (InventoryVO inven : inventory) {
+                List<InventoryDto> inventory = null;
+                inventory = controller.getInventory(currentPage, pageSize, Cookie.getFranchiseeIdx());
+                for (InventoryDto inven : inventory) {
                     publish(inven);
                 }
                 return null;
             }
 
             @Override
-            protected void process(List<InventoryVO> chunks) {
-                for (InventoryVO inven : chunks) {
+            protected void process(List<InventoryDto> chunks) {
+                for (InventoryDto inven : chunks) {
                     invenTableModel.addRow(new Object[]{inven.getProductName(), inven.getCount()});
                 }
                 isLoading = false;

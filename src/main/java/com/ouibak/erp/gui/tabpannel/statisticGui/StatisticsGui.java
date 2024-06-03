@@ -1,38 +1,37 @@
 package main.java.com.ouibak.erp.gui.tabpannel.statisticGui;
 
-import main.java.com.ouibak.erp.domain.product.ProductVO;
-import main.java.com.ouibak.erp.domain.statistics.StatisticsService;
-import main.java.com.ouibak.erp.domain.statistics.StatisticsServieImpl;
+import main.java.com.ouibak.erp.domain.product.ProductController;
+import main.java.com.ouibak.erp.domain.statistics.StatisticsController;
 import com.toedter.calendar.JDateChooser;
+import main.java.com.ouibak.erp.gui.Cookie;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class StatisticsGui extends JPanel {
+    private StatisticsController controller;
+
     private JComboBox<String> productSearchField;
     private JDateChooser startDateChooser;
     private JDateChooser endDateChooser;
     private JButton searchButton;
-
     private ChartPanel chartPanel;
 
-    private StatisticsService service;
     private List<String> availableProducts;
 
-    private void getData() {
-        service = StatisticsServieImpl.getInstance();
-        availableProducts = ProductVO.getProductNames();
+    public StatisticsGui() {
+        controller = new StatisticsController();
+        ProductController productController = new ProductController();
+        availableProducts = productController.getProductNames();
     }
 
     public JPanel createStatisticsPanel() {
-        getData();
         setLayout(new BorderLayout());
 
         JPanel statisticsPanel = new JPanel();
@@ -110,11 +109,7 @@ public class StatisticsGui extends JPanel {
     //
     private List<List<Integer>> fetchData(String productName, java.sql.Date startDate, java.sql.Date endDate) {
         List<List<Integer>> dataPoints = new ArrayList<>();
-        try {
-            dataPoints = service.getStatistics( productName , startDate, endDate);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        dataPoints = controller.getStastistics(Cookie.getFranchiseeIdx(), productName, startDate, endDate);
 
         return dataPoints;
     }

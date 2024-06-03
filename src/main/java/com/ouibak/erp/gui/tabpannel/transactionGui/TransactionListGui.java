@@ -1,8 +1,12 @@
 package main.java.com.ouibak.erp.gui.tabpannel.transactionGui;
 
-import main.java.com.ouibak.erp.domain.transactionList.Transaction;
-import main.java.com.ouibak.erp.domain.transactionList.TransactionDao;
-import main.java.com.ouibak.erp.domain.transactionList.TransactionDetail;
+import main.java.com.ouibak.erp.domain.transaction.TransactionController;
+import main.java.com.ouibak.erp.domain.transaction.dto.TransactionDetailDto;
+import main.java.com.ouibak.erp.domain.transaction.dto.TransactionListDto;
+import main.java.com.ouibak.erp.gui.Cookie;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -11,17 +15,17 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
 
 public class TransactionListGui {
+    private TransactionController controller;
+
     private DefaultTableModel transactionTableModel;
-    private TransactionDao transactionDao;
     private int currentPage = 1;
     private int pageSize = 10;
     private boolean isLoading = false;
 
     public TransactionListGui() {
-        transactionDao = new TransactionDao();
+        controller = new TransactionController();
     }
 
     public JPanel createTransactionPanel() {
@@ -75,19 +79,20 @@ public class TransactionListGui {
     }
 
     private void updateTransactionTableData() {
-        SwingWorker<Void, Transaction> worker = new SwingWorker<>() {
+        SwingWorker<Void, TransactionListDto> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() {
-                List<Transaction> transactions = transactionDao.getTransactionsPaging(currentPage, pageSize);
-                for (Transaction transaction : transactions) {
+
+                List<TransactionListDto> transactions = controller.getTransactionsPaging(currentPage, pageSize, Cookie.getFranchiseeIdx());
+                for (TransactionListDto transaction : transactions) {
                     publish(transaction);
                 }
                 return null;
             }
 
             @Override
-            protected void process(List<Transaction> chunks) {
-                for (Transaction transaction : chunks) {
+            protected void process(List<TransactionListDto> chunks) {
+                for (TransactionListDto transaction : chunks) {
                     transactionTableModel.addRow(new Object[]{
                             transaction.getTransactionId(),
                             transaction.getTotalPrice() + "원",
@@ -107,7 +112,7 @@ public class TransactionListGui {
     }
 
     private void showTransactionDetails(int transactionId) {
-        List<TransactionDetail> transactionDetails = transactionDao.getTransactionDetails(transactionId);
+        List<TransactionDetailDto> transactionDetails = controller.getTransactionDetails(transactionId);
 
         // 상세 내역을 보여줄 다이얼로그 생성
         String[] columnNames = {"결제 번호", "물품 이름", "수량"};
@@ -118,7 +123,7 @@ public class TransactionListGui {
                 return false;  // 모든 셀 read-only
             }
         };
-        for (TransactionDetail detail : transactionDetails) {
+        for (TransactionDetailDto detail : transactionDetails) {
             detailTableModel.addRow(new Object[]{detail.getTransactionId(), detail.getProductName(), detail.getCount()});
         }
 

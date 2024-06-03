@@ -1,7 +1,8 @@
 package main.java.com.ouibak.erp.gui.tabpannel.transactionGui;
 
-import main.java.com.ouibak.erp.domain.product.ProductVO;
-import main.java.com.ouibak.erp.domain.transactionRequest.TransactionServiceImpl;
+import main.java.com.ouibak.erp.domain.product.ProductController;
+import main.java.com.ouibak.erp.domain.transaction.TransactionController;
+import main.java.com.ouibak.erp.gui.Cookie;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -9,17 +10,17 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
 
 public class TransactionGui extends JFrame {
+    private TransactionController controller;
+
     private List<Integer> availableProducts;
     private Map<Integer, Object[]> productPriceMap;
 
     private JTextField totalAmountField;
     DefaultTableModel tableModel = new DefaultTableModel(new String[]{"상품 이름", "개수", "가격", "총 가격", "수정", "삭제"}, 0);
-
     JTable table = new JTable(tableModel) {
         @Override
         public boolean isCellEditable(int row, int column) {
@@ -27,16 +28,14 @@ public class TransactionGui extends JFrame {
         }
     };
 
-    private TransactionServiceImpl service;
-
-    private void getData() {
-        service = TransactionServiceImpl.getInstance();
-        productPriceMap = ProductVO.getProductPriceMap();
+    public TransactionGui() {
+        controller = new TransactionController();
+        ProductController productController  = new ProductController();
+        productPriceMap = productController.getProductPriceMap();
         availableProducts = productPriceMap.keySet().stream().toList();
     }
 
     public JPanel createTransactionPanel() {
-        getData();
         JPanel transactionPanel = new JPanel(new BorderLayout());
 
         transactionPanel.add(createFormPanel(), BorderLayout.NORTH);
@@ -162,16 +161,12 @@ public class TransactionGui extends JFrame {
             tableList.add(row);
         }
 
-        try {
-            service.requestTransaction(tableList, Integer.parseInt(totalAmountField.getText()));
-            alertRequestInfo();
-            tableModel.getDataVector().removeAllElements();
-            tableModel.fireTableDataChanged();
-            totalAmountField.setText("");
+        controller.createTransaction(Cookie.getFranchiseeIdx(), Integer.parseInt(totalAmountField.getText()), tableList);
+        alertRequestInfo();
+        tableModel.getDataVector().removeAllElements();
+        tableModel.fireTableDataChanged();
+        totalAmountField.setText("");
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private void alertRequestInfo() {
